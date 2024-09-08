@@ -1,0 +1,39 @@
+server:
+  port: 9090
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
+  servlet:
+    context-path: /payment
+  forward-headers-strategy: framework
+spring:
+  application:
+    name: payment-service
+  datasource:
+    username: ${DATA_SOURCE_USERNAME:user}
+    password: ${DATA_SOURCE_PASSWORD:password}
+    url: ${DATA_SOURCE_URL:jdbc:postgresql://localhost:5433/payment-service-db}
+    hikari:
+      connection-timeout: 2000
+      maximum-pool-size: 5
+  config:
+    import: ${CONFIG_IMPORT:"optional:configserver:"}
+  cloud:
+    config:
+      uri: ${CONFIG_URL:http://localhost:9000}
+payment-service:
+  test: "test-local"
+keySetUri:
+  value: ${KEY_SET_URI:http://localhost:8080}/as/oauth2/jwks
+springdoc:
+  swagger-ui:
+    enabled: true
+    csrf:
+      enabled: false
+  api-docs:
+    enabled: true
+    groups:
+      enabled: true
